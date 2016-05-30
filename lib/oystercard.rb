@@ -7,6 +7,7 @@ attr_accessor :balance
   end
 
   def top_up(value)
+    fail "top up exceeds balance limit" if @balance + value > 90
     @balance += value
   end
 
