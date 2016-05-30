@@ -8,7 +8,7 @@ describe Oystercard do
     end
 
     it "is not in journey by default" do
-      expect(subject.in_journey).to be false
+      expect(subject).not_to be_in_journey
     end
 
   end
@@ -44,7 +44,24 @@ describe Oystercard do
   context "card touch ability" do
 
     it { is_expected.to respond_to(:touch_in)}
+
+    it "allows owner to touch in" do
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
+
+    it "Raises an error if your balance is too low" do
+      expect{subject.touch_in}.to raise_error("Balance too low")
+    end
+
+
     it { is_expected.to respond_to(:touch_out)}
+
+    it "allows owner to touch out" do
+      subject.touch_in
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
 
 
   end

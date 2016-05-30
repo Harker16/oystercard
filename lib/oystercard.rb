@@ -24,9 +24,12 @@ attr_reader :in_journey
   end
 
   def touch_in
+    fail "Balance too low" if @balance < 1
+    @in_journey = true
   end
 
   def touch_out
+    @in_journey = false
   end
-  
+
 end
