@@ -2,11 +2,18 @@ require 'oystercard'
 
 describe Oystercard do
 
-  context "balance" do
+  context "Information on the card by default" do
     it "has a balance of 0 by default" do
       expect(subject.balance).to eq 0
     end
+
+    it "is not in journey by default" do
+      expect(subject.in_journey).to be false
+    end
+
   end
+
+  it { is_expected.to respond_to(:in_journey?)}
 
   context "transaction" do
 
@@ -16,8 +23,8 @@ describe Oystercard do
 
       it "tops up when method #top_up is invoked" do
         expect{ subject.top_up(10)}.to change{ subject.balance }.by 10
-
       end
+
       it "raises an error if top up exceeds balance limit" do
         expect{subject.top_up(91)}.to raise_error("top up exceeds balance limit")
       end
@@ -29,12 +36,17 @@ describe Oystercard do
       it "withdraws when method #withdraw is invoked" do
         subject.top_up(10)
         expect{ subject.withdraw(5)}.to change{subject.balance}.by -5
-
       end
-
-
     end
     end
+  end
+
+  context "card touch ability" do
+
+    it { is_expected.to respond_to(:touch_in)}
+    it { is_expected.to respond_to(:touch_out)}
+
+
   end
 
 end
